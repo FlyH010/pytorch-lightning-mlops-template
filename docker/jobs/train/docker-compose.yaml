@@ -1,0 +1,25 @@
+services:
+  training:
+    build:
+      context: ../../..
+      dockerfile: docker/jobs/train/Dockerfile
+    image: image_classifier_training
+    container_name: training
+    env_file: .env.training
+    volumes:
+      - ${O_DRIVE_PATH}:/mnt/O:rw # dataset access
+      - ${TOOLS_LIB_PATH}:/workspace/tools:ro # access to tools library
+      - ../../..:/workspace:rw # project root
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    networks:
+      - ml-platform
+
+networks:
+  ml-platform:
+    external: true

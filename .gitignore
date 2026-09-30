@@ -1,0 +1,129 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.windsurf/*
+
+# PyInstaller
+*.manifest
+*.spec
+
+## mlflow
+mlruns/
+mlruns_backup/
+mlflow.db*
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# Environment
+.env
+.env.api
+.env.training
+.env.monitoring
+docker/.env
+.venv
+env/
+venv/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.devin/
+
+## configs
+configs_downloaded/
+
+# PyTorch / Lightning
+logs/
+outputs/
+lightning_logs/
+checkpoints/
+*.ckpt
+*.pth
+*.pt
+train.log
+
+# TensorBoard
+runs/
+events.out.tfevents.*
+
+# Data (don't commit large data files)
+monitoring/reports/*
+data/**
+!configs/
+*.jxl
+*.tif
+*.tiff
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Dataset metadata
+dataset_metadata.json
+dataset_manifest.json
+
+# ...except built dataset definitions under data/<name>/ (small JSON, versioned
+# on purpose -- a benchmark set every future model is compared against has to be
+# frozen and reviewable; see docs/plans/dataset-builder.md).
+# Must come after the data/** and dataset_*.json rules above: last match wins.
+!data/benchmark*/
+!data/benchmark*/dataset_metadata.json
+!data/benchmark*/dataset_manifest.json
+
+## ignore agents rules
+AGENTS.md

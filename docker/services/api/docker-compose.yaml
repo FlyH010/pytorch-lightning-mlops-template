@@ -1,0 +1,26 @@
+services:
+  api:
+    image: ghcr.io/kayhanalvandi/pytorch-lightning-mlops-template/api:latest
+    container_name: image_classifier_api
+    env_file: .env.api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ${O_DRIVE_PATH}:/mnt/O:rw
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    networks:
+      - ml-platform
+      - pg_network
+
+networks:
+  ml-platform:
+    external: true
+  pg_network:
+    external: true

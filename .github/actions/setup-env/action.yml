@@ -1,0 +1,25 @@
+name: Setup Environment
+description: Configurable Setup Python environment
+inputs:
+  requirements_file:
+    description: 'Path to requirements file'
+    required: true
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    - name: Cache pip
+      uses: actions/cache@v4
+      with:   
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles(inputs.requirements_file) }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    - name: Install dependencies
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r ${{ inputs.requirements_file }}
+        pip install pytest pytest-cov httpx2

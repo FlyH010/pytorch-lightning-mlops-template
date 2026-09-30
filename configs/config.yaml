@@ -1,0 +1,24 @@
+# Main Hydra config - composes all config groups
+defaults:
+  - datamodule: tiled
+  - model: simplecnn
+  - optimizer: adamw
+  - loss: cross_entropy
+  - callbacks: default
+  - trainer: default
+  - _self_
+
+# Runtime parameters
+seed: 42
+ckpt: null
+resume_from_model: null
+resume_weights_only: null
+run_name: null
+dataset_name: null
+tags: null
+
+# Prevent Hydra from changing working directory and creating output dirs
+hydra:
+  run:
+    dir: .
+  output_subdir: null

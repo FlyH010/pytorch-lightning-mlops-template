@@ -1,0 +1,20 @@
+FROM pytorch/pytorch:2.12.0-cuda12.6-cudnn9-runtime
+
+LABEL maintainer="Kayhan Alvandi <kayhan.alvandi@tum.de>"
+LABEL description="FastAPI service for image classification with PyTorch Lightning"
+
+
+WORKDIR /app
+
+COPY requirements/api_req.txt .
+RUN pip install --no-cache-dir --break-system-packages -r api_req.txt
+
+COPY api/ ./api/
+COPY utils/ ./utils/
+COPY database/ ./database/
+# needed api image for runing compute references
+COPY monitoring/compute_predictions_references.py ./monitoring/ 
+
+EXPOSE 8000
+
+CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -1,0 +1,47 @@
+name: Tests-Serving-build-image
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'api/**'
+      - 'tests/api/**'
+      - 'docker/services/api/Dockerfile'
+      - '.github/workflows/ci_serving.yml'
+      - '.github/actions/setup-env/'
+      - 'requirements/api_req.txt'
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+
+jobs:
+  # Fast CPU suite: runs automatically on push and pull_request.
+  test-push-serving: 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ruff check
+        uses: astral-sh/ruff-action@v3
+        with:
+          args: check
+          src: "api/ tests/api/"
+      - name: Set up Python
+        uses: ./.github/actions/setup-env
+        with:
+          requirements_file: requirements/api_req.txt
+      - name: Run tests
+        run: pytest tests/api -q
+  
+  serving-build-push:
+    runs-on: ubuntu-latest
+    needs: test-push-serving
+    if: github.event_name != 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and push image
+        uses: ./.github/actions/build-push-image
+        with:
+          image_name: api
+          dockerfile: docker/services/api/Dockerfile
+          token: ${{ secrets.GHCR_TOKEN }}
